@@ -11,7 +11,8 @@ namespace Flick.Handlers
         {
             String = 0x73,
             Integer = 0x69,
-            Float = 0x66
+            Float = 0x66,
+            Double = 0x64
         }
 
         public static Dictionary<string, VariableInfo> Variables = new Dictionary<string, VariableInfo>();
@@ -46,6 +47,9 @@ namespace Flick.Handlers
                     break;
                 case Types.Float:
                     value = reader.ReadSingle();
+                    break;
+                case Types.Double:
+                    value = reader.ReadDouble();
                     break;
             }
 
@@ -110,16 +114,19 @@ namespace Flick.Handlers
                 ? (int) variable.Value
                 : variable.Type == Types.Float
                     ? (float) variable.Value
-                    : 0) + (variable2.Type == Types.Integer
-                        ? (int) variable2.Value
-                        : variable2.Type == Types.Float ? (float) variable2.Value : 0);
+                    : variable.Type == Types.Double ? (double) variable.Value : 0) +
+                         (variable2.Type == Types.Integer
+                             ? (int) variable2.Value
+                             : variable2.Type == Types.Float
+                                 ? (float) variable2.Value
+                                 : variable.Type == Types.Double ? (double) variable.Value : 0);
 
             ResultStack.Push(new VariableInfo(Types.Float, result));
         }
 
         public static bool IsNumber(this VariableInfo variable)
         {
-            return variable.Type == Types.Float || variable.Type == Types.Integer;
+            return variable.Type == Types.Float || variable.Type == Types.Integer || variable.Type == Types.Double;
         }
 
         public class VariableInfo
