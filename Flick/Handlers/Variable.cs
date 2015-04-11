@@ -106,13 +106,13 @@ namespace Flick.Handlers
                 Environment.Exit(-1);
             }
 
-            var result = variable.Type == Types.Integer
+            var result = (variable.Type == Types.Integer
                 ? (int) variable.Value
                 : variable.Type == Types.Float
                     ? (float) variable.Value
-                    : 0 + variable2.Type == Types.Integer
+                    : 0) + (variable2.Type == Types.Integer
                         ? (int) variable2.Value
-                        : variable2.Type == Types.Float ? (float) variable2.Value : 0;
+                        : variable2.Type == Types.Float ? (float) variable2.Value : 0);
 
             ResultStack.Push(new VariableInfo(Types.Float, result));
         }
