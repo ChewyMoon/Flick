@@ -129,6 +129,115 @@ namespace Flick.Handlers
             return variable.Type == Types.Float || variable.Type == Types.Integer || variable.Type == Types.Double;
         }
 
+        /// <summary>
+        ///     Subtracts two variables, pushing the result to the result stack.
+        /// </summary>
+        /// <param name="reader"></param>
+        public static void Subtract(ref BinaryReader reader)
+        {
+            // Get first 2 values
+            var variableName = reader.ReadString();
+            var variableName2 = reader.ReadString();
+
+            if (!Variables.ContainsKey(variableName) || !Variables.ContainsKey(variableName2))
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables to add don't exist!");
+                Environment.Exit(-1);
+            }
+
+            var variable = Variables[variableName];
+            var variable2 = Variables[variableName2];
+
+            if (!variable.IsNumber() || !variable2.IsNumber())
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables are not both numbers!");
+                Environment.Exit(-1);
+            }
+
+            var result = (variable.Type == Types.Integer
+                ? (int) variable.Value
+                : variable.Type == Types.Float
+                    ? (float) variable.Value
+                    : variable.Type == Types.Double ? (double) variable.Value : 0) -
+                         (variable2.Type == Types.Integer
+                             ? (int) variable2.Value
+                             : variable2.Type == Types.Float
+                                 ? (float) variable2.Value
+                                 : variable.Type == Types.Double ? (double) variable.Value : 0);
+
+            ResultStack.Push(new VariableInfo(Types.Float, result));
+        }
+
+        public static void Multiply(ref BinaryReader reader)
+        {
+            // Get first 2 values
+            var variableName = reader.ReadString();
+            var variableName2 = reader.ReadString();
+
+            if (!Variables.ContainsKey(variableName) || !Variables.ContainsKey(variableName2))
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables to add don't exist!");
+                Environment.Exit(-1);
+            }
+
+            var variable = Variables[variableName];
+            var variable2 = Variables[variableName2];
+
+            if (!variable.IsNumber() || !variable2.IsNumber())
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables are not both numbers!");
+                Environment.Exit(-1);
+            }
+
+            var result = (variable.Type == Types.Integer
+                ? (int) variable.Value
+                : variable.Type == Types.Float
+                    ? (float) variable.Value
+                    : variable.Type == Types.Double ? (double) variable.Value : 0) *
+                         (variable2.Type == Types.Integer
+                             ? (int) variable2.Value
+                             : variable2.Type == Types.Float
+                                 ? (float) variable2.Value
+                                 : variable.Type == Types.Double ? (double) variable.Value : 0);
+
+            ResultStack.Push(new VariableInfo(Types.Float, result));
+        }
+
+        public static void Divide(ref BinaryReader reader)
+        {
+            // Get first 2 values
+            var variableName = reader.ReadString();
+            var variableName2 = reader.ReadString();
+
+            if (!Variables.ContainsKey(variableName) || !Variables.ContainsKey(variableName2))
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables to add don't exist!");
+                Environment.Exit(-1);
+            }
+
+            var variable = Variables[variableName];
+            var variable2 = Variables[variableName2];
+
+            if (!variable.IsNumber() || !variable2.IsNumber())
+            {
+                Console.WriteLine("Flick encountered a critical error. Variables are not both numbers!");
+                Environment.Exit(-1);
+            }
+
+            var result = (variable.Type == Types.Integer
+                ? (int) variable.Value
+                : variable.Type == Types.Float
+                    ? (float) variable.Value
+                    : variable.Type == Types.Double ? (double) variable.Value : 0) /
+                         (variable2.Type == Types.Integer
+                             ? (int) variable2.Value
+                             : variable2.Type == Types.Float
+                                 ? (float) variable2.Value
+                                 : variable.Type == Types.Double ? (double) variable.Value : 0);
+
+            ResultStack.Push(new VariableInfo(Types.Float, result));
+        }
+
         public class VariableInfo
         {
             public Types Type;

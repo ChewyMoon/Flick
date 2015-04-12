@@ -15,11 +15,14 @@ namespace Flick
             new Dictionary<byte, HandleByteCodeInstruction>(255)
             {
                 { 0x00, NoOperation.HandleCommand },
-                { 0xF5, Variable.CreateVariable },
                 { 0xEF, CommandLine.Print },
+                { 0xF5, Variable.CreateVariable },
                 { 0x4F, Variable.PushVariable },
                 { 0x5F, Variable.PushResultToStack },
-                { 0x14, Variable.Add }
+                { 0x14, Variable.Add },
+                { 0xD4, Variable.Subtract },
+                { 0x89, Variable.Multiply },
+                { 0x8E, Variable.Divide }
             };
 
         private static void Main(string[] args)
